@@ -8,7 +8,9 @@ RUN set -ex && \
 	curl -L https://github.com/pgaudit/pgaudit/archive/1.3.2.tar.gz | tar xz --strip 1 && \
 	make -C /tmp/pgaudit/ install USE_PGXS=1 && \
 	apk del curl make g++ postgresql-dev && \
-	ln -s usr/local/bin/my-docker-entrypoint.sh / # backwards compat
+	cd / && \
+	rm -rf /tmp/pgaudit && \
+	ln -s usr/local/bin/my-docker-entrypoint.sh /
 
 ENTRYPOINT ["my-docker-entrypoint.sh"]
 CMD ["postgres"]
